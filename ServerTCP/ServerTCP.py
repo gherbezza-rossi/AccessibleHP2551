@@ -27,9 +27,3 @@ def sub_server(socket_client, backlog=1):
     conn, client_info = server.accept()
     print(f"Connection positive: {client_info}")
     receive(conn)
-
-
-if __name__ == '__main__':
-    ip_client = "192.168.0.1"
-    port_client = 40567
-    sub_server((ip_client, port_client))

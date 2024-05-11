@@ -1,16 +1,12 @@
-# This is a sample Python script.
-
-# Press ⌃R to execute it or replace it with your code.
-# Press Double ⇧ to search everywhere for classes, files, tool windows, actions, and settings.
+from ServerTCP.ServerTCP import sub_server
 
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press ⌘F8 to toggle the breakpoint.
+def use_server():
+    ip_client = "192.168.0.1"
+    port_client = 40567
+    sub_server((ip_client, port_client))
 
 
-# Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    print_hi('PyCharm')
+    use_server()
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
