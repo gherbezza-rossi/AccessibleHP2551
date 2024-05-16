@@ -5,4 +5,4 @@ def mqtt_publisher(dictionary):
     publish.multiple(dictionary)
 
 
-# mqtt_publisher([{'topic': "/weather/a", "payload": 1}, {'topic': "/weather/b", "payload": 2}])
+mqtt_publisher([{'topic': "weather/temp", "payload": 10}, {'topic': "weather/humidity", "payload": 15}])

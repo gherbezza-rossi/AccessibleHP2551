@@ -2,6 +2,7 @@ import socket
 import sys
 
 from ApiDefinition import API_DEFINITIONS
+from PublisherMQTT import mqtt_publisher
 
 
 def request_encoding(command: int = 39):
@@ -85,6 +86,7 @@ def send_smt(s):
             response_list = response.split()
             dictionary = response_decoding(response_list)
             print(dictionary)
+            mqtt_publisher(dictionary)
 
 
 def conn_sub_server(gateway_add=("172.20.10.1", 45000)):
@@ -102,7 +104,7 @@ def conn_sub_server(gateway_add=("172.20.10.1", 45000)):
     send_smt(s)
 
 
-conn_sub_server()
+# conn_sub_server()
 
 response_example = ("0xFF 0xFF 0x27 0x00 0x45 0x01 0x00 0x9B 0x06 0x37 0x08 0x27 0xA7 0x09 0x27 0xA7 0x02 0x00 0x35 "
                     "0x07 0x58 0x0A 0x00 0xEA 0x0B 0x00 0x0B 0x0C 0x00 0x0F 0x15 0x00 0x00 0x00 0x00 0x16 0x00 0x00 "

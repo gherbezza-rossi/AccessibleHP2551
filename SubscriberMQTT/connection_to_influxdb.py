@@ -18,9 +18,9 @@ write_api = client.write_api(write_options=SYNCHRONOUS)
 
 
 def write_on_influx(topic, payload):
-    point = Point(topic).field("value", payload).time(datetime.now(UTC), WritePrecision.NS)
+    point = Point("weather_station").field(str(topic), int(payload)).time(datetime.now(UTC), WritePrecision.NS)
 
     write_api.write(bucket=BUCKET_INFLUX, org=ORG_INFLUX, record=point)
 
 
-#write_on_influx('temp', 4)
+# write_on_influx('temp', 67)
