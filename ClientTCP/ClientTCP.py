@@ -17,7 +17,7 @@ def request_encoding(command: int = 39):
     - size: sum of sizes of command, payload, size and checksum (not in hex form)
     - checksum: aggregating the byte values of the command, the size and any optional payload bytes (in module 256) in hex
     """
-    heather = [255, 255]
+
     size = 3
     checksum = (command + size) % 256
 

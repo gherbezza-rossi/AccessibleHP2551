@@ -17,7 +17,7 @@ def on_connect(client, userdata, flags, reason_code, properties):
     print(f"Connected with result code {reason_code}")
     # Subscribing in on_connect() means that if we lose the connection and
     # reconnect then subscriptions will be renewed.
-    client_mqtt.subscribe("weather/#")
+    client_mqtt.subscribe("wee/hi")
 
 
 def on_message(client, userdata, msg):
