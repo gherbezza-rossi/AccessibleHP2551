@@ -47,7 +47,7 @@ def response_decoding(response: list):
     :param response: list of bytes
     :return: decoded response
     """
-    print(response)
+    # print(response)
     decoded_response = []
 
     i = 5
@@ -72,6 +72,13 @@ def response_decoding(response: list):
     return decoded_response
 
 
+def publish_on_mqtt(response):
+    response_list = response.split()
+    dictionary = response_decoding(response_list)
+    # print(dictionary)
+    mqtt_publisher(dictionary)
+
+
 def send_smt(s):
     while True:
         command = input("(Q for quitting) -> ")
@@ -83,10 +90,7 @@ def send_smt(s):
             request = request_encoding()
             s.send(request)
             response = s.recv(1024)
-            response_list = response.split()
-            dictionary = response_decoding(response_list)
-            print(dictionary)
-            mqtt_publisher(dictionary)
+            publish_on_mqtt(response)
 
 
 def conn_sub_server(gateway_add=("172.20.10.1", 45000)):
@@ -104,9 +108,12 @@ def conn_sub_server(gateway_add=("172.20.10.1", 45000)):
     send_smt(s)
 
 
-# conn_sub_server()
-
 response_example = ("0xFF 0xFF 0x27 0x00 0x45 0x01 0x00 0x9B 0x06 0x37 0x08 0x27 0xA7 0x09 0x27 0xA7 0x02 0x00 0x35 "
                     "0x07 0x58 0x0A 0x00 0xEA 0x0B 0x00 0x0B 0x0C 0x00 0x0F 0x15 0x00 0x00 0x00 0x00 0x16 0x00 0x00 "
                     "0x17 0x00 0x20 0x00 0x9A 0x28 0x3A 0x19 0x00 0x24 0x0E 0x00 0x00 0x10 0x00 0x19 0x11 0x00 0x30 "
                     "0x12 0x00 0x00 0x00 0x19 0x13 0x00 0x00 0x00 0x30 0x0D 0x00 0x00 0x3B")
+
+publish_on_mqtt(response_example)
+
+# conn_sub_server()
+

@@ -17,13 +17,16 @@ def on_connect(client, userdata, flags, reason_code, properties):
     print(f"Connected with result code {reason_code}")
     # Subscribing in on_connect() means that if we lose the connection and
     # reconnect then subscriptions will be renewed.
-    client_mqtt.subscribe("wee/hi")
+    client_mqtt.subscribe("weather/#")
 
 
 def on_message(client, userdata, msg):
     print(f"Saving to influx message {msg.topic}: {msg.payload}")
 
-    write_on_influx(msg.topic, msg.payload)
+    if msg.topic[:8] == "weather/":
+        write_on_influx(msg.topic[8:], msg.payload)
+    else:
+        print("Invalid topic")
 
 
 client_mqtt = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2)

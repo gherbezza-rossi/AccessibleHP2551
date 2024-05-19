@@ -8,7 +8,7 @@ from influxdb_client.domain.write_precision import WritePrecision
 TOKEN_INFLUX = "-Bsx6E7g7jsOPSD1djOguQy_asXTAgAAOpgf70QU4y62VX4BaiUUhLnC45Ic8v24VFpxao_PiUSdh-lkd7SYVA=="
 URL_INFLUX = "http://localhost:8086"
 ORG_INFLUX = "MyInfluxDB"
-BUCKET_INFLUX = "WeatherStation"
+BUCKET_INFLUX = "WeatherData"
 
 client = influxdb_client.InfluxDBClient(url=URL_INFLUX,
                                         token=TOKEN_INFLUX,
