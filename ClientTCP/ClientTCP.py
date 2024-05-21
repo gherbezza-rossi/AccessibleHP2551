@@ -1,7 +1,9 @@
 import socket
 import sys
 
+
 from ApiDefinition import API_DEFINITIONS
+from ServerTCP import make_response
 from PublisherMQTT import mqtt_publisher
 
 
@@ -50,7 +52,7 @@ def response_decoding(response: list):
     # print(response)
     decoded_response = []
 
-    i = 5
+    i = 4
     while i < len(response) - 1:
         marker = response[i]
         api = API_DEFINITIONS.get(marker)
@@ -64,7 +66,7 @@ def response_decoding(response: list):
             value[h] = str(value[h]).replace('0x', '')
 
         value_str = "".join(value)
-        value_int = int(value_str, 16)
+        value_int = int(value_str, 16) * api.operation
 
         decoded_response.append({"topic": "weather/"+api.name, "payload": value_int})
         i += size + 1
@@ -73,27 +75,21 @@ def response_decoding(response: list):
 
 
 def publish_on_mqtt(response):
+    print(response)
     response_list = response.split()
     dictionary = response_decoding(response_list)
-    # print(dictionary)
+    print(dictionary)
     mqtt_publisher(dictionary)
 
 
 def send_smt(s):
-    while True:
-        command = input("(Q for quitting) -> ")
-        if command == "Q":
-            print("Closing connection")
-            s.close()
-            sys.exit()
-        else:
-            request = request_encoding()
-            s.send(request)
-            response = s.recv(1024)
-            publish_on_mqtt(response)
+    request = request_encoding()
+    s.send(request)
+    response = s.recv(1024)
+    publish_on_mqtt(response)
 
 
-def conn_sub_server(gateway_add=("172.20.10.1", 45000)):
+def conn_sub_server(gateway_add=("localhost", 45000)):
     """
     connecting to gateway and sending packet to hp2551
     source: https://www.programmareinpython.it/video-corso-python-intermedio/07-server-client-tcp-parte-prima/
@@ -113,7 +109,7 @@ response_example = ("0xFF 0xFF 0x27 0x00 0x45 0x01 0x00 0x9B 0x06 0x37 0x08 0x27
                     "0x17 0x00 0x20 0x00 0x9A 0x28 0x3A 0x19 0x00 0x24 0x0E 0x00 0x00 0x10 0x00 0x19 0x11 0x00 0x30 "
                     "0x12 0x00 0x00 0x00 0x19 0x13 0x00 0x00 0x00 0x30 0x0D 0x00 0x00 0x3B")
 
-publish_on_mqtt(response_example)
+publish_on_mqtt(make_response())
 
 # conn_sub_server()
 
